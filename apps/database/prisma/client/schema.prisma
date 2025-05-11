@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database.sqlite"
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  email    String    @unique
+  password String
+  role     String    @default("user")
+  sessions Session[]
+  snippet  Snippet[]
+
+  @@index([username])
+  @@index([email])
+}
+
+model Session {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  expiryDate DateTime
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([expiryDate])
+}
+
+model Snippet {
+  id     Int    @id @default(autoincrement())
+  title  String
+  code   String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

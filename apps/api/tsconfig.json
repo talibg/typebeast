@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
+        "esModuleInterop": true,
+        "allowImportingTsExtensions": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "isolatedModules": true,
+        "composite": true
+    },
+    "include": ["src", "test"],
+    "exclude": ["node_modules"],
+    "references": [{ "path": "../database" }]
+}
