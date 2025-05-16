@@ -3,14 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import {
     Card,
@@ -19,10 +12,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
+import { InputField } from '../components/forms/InputField'
 
 const formSchema = z
     .object({
@@ -59,7 +51,6 @@ export const Register = () => {
             const { username, email, password } = values
             await register(username, email, password)
             toast('Welcome')
-            navigate('/')
         } catch {
             toast.error('Failed to submit the form. Please try again.')
         }
@@ -82,87 +73,37 @@ export const Register = () => {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-8">
                             <div className="grid gap-4">
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="username"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel htmlFor="username">
-                                                Username
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    id="username"
-                                                    placeholder="John Doe"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Username"
+                                    placeholder="username"
+                                    type="text"
                                 />
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="email"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel htmlFor="email">
-                                                Email
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    id="email"
-                                                    placeholder="johndoe@mail.com"
-                                                    type="email"
-                                                    autoComplete="email"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Email"
+                                    placeholder="example@email.com"
+                                    type="email"
+                                    autoComplete="email"
                                 />
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="password"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel htmlFor="password">
-                                                Password
-                                            </FormLabel>
-                                            <FormControl>
-                                                <PasswordInput
-                                                    id="password"
-                                                    placeholder="******"
-                                                    autoComplete="new-password"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Password"
+                                    placeholder="********"
+                                    type="password"
+                                    autoComplete="new-password"
                                 />
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="confirmPassword"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel htmlFor="confirmPassword">
-                                                Confirm Password
-                                            </FormLabel>
-                                            <FormControl>
-                                                <PasswordInput
-                                                    id="confirmPassword"
-                                                    placeholder="******"
-                                                    autoComplete="new-password"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Confirm Password"
+                                    placeholder="********"
+                                    type="password"
+                                    autoComplete="new-password"
                                 />
-
                                 <Button type="submit" className="w-full">
                                     Register
                                 </Button>

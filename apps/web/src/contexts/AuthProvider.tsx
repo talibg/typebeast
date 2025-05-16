@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
                 return
             }
             const data = await response.json()
+            console.log(data)
             handleSetStore({ token: data.accessToken, user: data.user })
             setIsLoading(false)
         },

@@ -3,14 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import {
     Card,
@@ -19,10 +12,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
+import { InputField } from '../components/forms/InputField'
 
 const formSchema = z.object({
     email: z.string().email({ message: 'Invalid email address' }),
@@ -48,7 +40,6 @@ export const Login = () => {
             const { email, password } = values
             await login(email, password)
             toast('welcome back')
-            navigate('/')
         } catch {
             toast.error('Failed to submit the form. Please try again.')
         }
@@ -71,53 +62,21 @@ export const Login = () => {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-8">
                             <div className="grid gap-4">
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="email"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel htmlFor="email">
-                                                Email
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    id="email"
-                                                    placeholder="johndoe@mail.com"
-                                                    type="email"
-                                                    autoComplete="email"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Email"
+                                    placeholder="example@email.com"
+                                    type="email"
+                                    autoComplete="email"
                                 />
-                                <FormField
+                                <InputField
                                     control={form.control}
                                     name="password"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <div className="flex justify-between items-center">
-                                                <FormLabel htmlFor="password">
-                                                    Password
-                                                </FormLabel>
-                                                {/*<NavLink
-                                                    href="#"
-                                                    className="ml-auto inline-block text-sm underline">
-                                                    Forgot your password?
-                                                    </NavLink>*/}
-                                            </div>
-                                            <FormControl>
-                                                <PasswordInput
-                                                    id="password"
-                                                    placeholder="******"
-                                                    autoComplete="current-password"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    label="Password"
+                                    placeholder="********"
+                                    type="password"
+                                    autoComplete="new-password"
                                 />
                                 <Button type="submit" className="w-full">
                                     Login
