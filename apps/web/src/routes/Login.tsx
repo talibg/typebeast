@@ -5,16 +5,10 @@ import { toast } from 'sonner'
 
 import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import { NavLink, useNavigate } from 'react-router'
+import { Navigate, NavLink } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import { InputField } from '../components/forms/InputField'
+import { FormCard } from '../components/FormCard'
 
 const formSchema = z.object({
     email: z.string().email({ message: 'Invalid email address' }),
@@ -26,7 +20,6 @@ const formSchema = z.object({
 
 export const Login = () => {
     const { login, isAuthenticated } = useAuth()
-    const navigate = useNavigate()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -34,64 +27,59 @@ export const Login = () => {
             password: '',
         },
     })
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const { email, password } = values
             await login(email, password)
-            toast('welcome back')
+            toast.success('welcome back')
         } catch {
             toast.error('Failed to submit the form. Please try again.')
         }
     }
 
-    if (isAuthenticated) navigate('/profile')
+    if (isAuthenticated) {
+        return <Navigate to="/profile" />
+    }
 
     return (
         <div className="w-full flex-auto grow flex flex-col justify-center items-center content-center px-8">
-            <Card className="mx-auto w-full max-w-[500px]">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>
-                        Enter your email and password to login to your account.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8">
-                            <div className="grid gap-4">
-                                <InputField
-                                    control={form.control}
-                                    name="email"
-                                    label="Email"
-                                    placeholder="example@email.com"
-                                    type="email"
-                                    autoComplete="email"
-                                />
-                                <InputField
-                                    control={form.control}
-                                    name="password"
-                                    label="Password"
-                                    placeholder="********"
-                                    type="password"
-                                    autoComplete="new-password"
-                                />
-                                <Button type="submit" className="w-full">
-                                    Login
-                                </Button>
-                            </div>
-                        </form>
-                    </Form>
-                    <div className="mt-4 text-center text-sm">
-                        Don&apos;t have an account?{' '}
-                        <NavLink to="/register" className="underline">
-                            Sign up
-                        </NavLink>
-                    </div>
-                </CardContent>
-            </Card>
+            <FormCard
+                title="Login"
+                description="Enter your email and password to login to your account.">
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8">
+                        <div className="grid gap-4">
+                            <InputField
+                                control={form.control}
+                                name="email"
+                                label="Email"
+                                placeholder="example@email.com"
+                                type="email"
+                                autoComplete="email"
+                            />
+                            <InputField
+                                control={form.control}
+                                name="password"
+                                label="Password"
+                                placeholder="********"
+                                type="password"
+                                autoComplete="current-password"
+                            />
+                            <Button type="submit" className="w-full">
+                                Login
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
+                <div className="mt-4 text-center text-sm">
+                    Don&apos;t have an account?{' '}
+                    <NavLink to="/register" className="underline">
+                        Sign up
+                    </NavLink>
+                </div>
+            </FormCard>
         </div>
     )
 }

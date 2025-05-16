@@ -15,7 +15,7 @@ createRoot(root!).render(
     <AuthProvider>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={Router} />
-            <Toaster />
+            <Toaster richColors position="top-center" />
         </ThemeProvider>
     </AuthProvider>,
 )

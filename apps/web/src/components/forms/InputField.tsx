@@ -58,6 +58,7 @@ export const InputField = <TFormValues extends FieldValues = FieldValues>({
                             placeholder={placeholder}
                             autoComplete={autoComplete}
                             {...field}
+                            {...props}
                         />
                     )}
                 </FormControl>

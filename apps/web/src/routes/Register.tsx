@@ -2,19 +2,12 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-
 import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import { NavLink, useNavigate } from 'react-router'
+import { NavLink, Navigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import { InputField } from '../components/forms/InputField'
+import { FormCard } from '../components/FormCard'
 
 const formSchema = z
     .object({
@@ -35,7 +28,6 @@ const formSchema = z
 
 export const Register = () => {
     const { register, isAuthenticated } = useAuth()
-    const navigate = useNavigate()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -50,74 +42,70 @@ export const Register = () => {
         try {
             const { username, email, password } = values
             await register(username, email, password)
-            toast('Welcome')
+            toast.success('Welcome')
         } catch {
             toast.error('Failed to submit the form. Please try again.')
         }
     }
 
-    if (isAuthenticated) navigate('/profile')
+    if (isAuthenticated) {
+        return <Navigate to="/profile" />
+    }
 
     return (
         <div className="w-full flex-auto grow flex flex-col justify-center items-center content-center px-8">
-            <Card className="mx-auto w-full max-w-[500px]">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Register</CardTitle>
-                    <CardDescription>
-                        Create a new account by filling out the form below.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8">
-                            <div className="grid gap-4">
-                                <InputField
-                                    control={form.control}
-                                    name="username"
-                                    label="Username"
-                                    placeholder="username"
-                                    type="text"
-                                />
-                                <InputField
-                                    control={form.control}
-                                    name="email"
-                                    label="Email"
-                                    placeholder="example@email.com"
-                                    type="email"
-                                    autoComplete="email"
-                                />
-                                <InputField
-                                    control={form.control}
-                                    name="password"
-                                    label="Password"
-                                    placeholder="********"
-                                    type="password"
-                                    autoComplete="new-password"
-                                />
-                                <InputField
-                                    control={form.control}
-                                    name="confirmPassword"
-                                    label="Confirm Password"
-                                    placeholder="********"
-                                    type="password"
-                                    autoComplete="new-password"
-                                />
-                                <Button type="submit" className="w-full">
-                                    Register
-                                </Button>
-                            </div>
-                        </form>
-                    </Form>
-                    <div className="mt-4 text-center text-sm">
-                        Already have an account?{' '}
-                        <NavLink to="/login" className="underline">
-                            Login
-                        </NavLink>
-                    </div>
-                </CardContent>
-            </Card>
+            <FormCard
+                title="Register"
+                description="Create a new account by filling out the form below.">
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8">
+                        <div className="grid gap-4">
+                            <InputField
+                                control={form.control}
+                                name="username"
+                                label="Username"
+                                placeholder="username"
+                                type="text"
+                            />
+                            <InputField
+                                control={form.control}
+                                name="email"
+                                label="Email"
+                                placeholder="example@email.com"
+                                type="email"
+                                autoComplete="email"
+                            />
+                            <InputField
+                                control={form.control}
+                                name="password"
+                                label="Password"
+                                placeholder="********"
+                                type="password"
+                                autoComplete="new-password"
+                            />
+                            <InputField
+                                control={form.control}
+                                name="confirmPassword"
+                                label="Confirm Password"
+                                placeholder="********"
+                                type="password"
+                                autoComplete="new-password"
+                            />
+                            <Button type="submit" className="w-full">
+                                Register
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
+                <div className="mt-4 text-center text-sm">
+                    Already have an account?{' '}
+                    <NavLink to="/login" className="underline">
+                        Login
+                    </NavLink>
+                </div>
+            </FormCard>
         </div>
     )
 }
