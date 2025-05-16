@@ -51,6 +51,13 @@ export const patchSnippets = async (id: number, title: string, code: string) =>
         body: JSON.stringify({ title, code }),
     })
 
+export const destroySnippets = async (id: number) =>
+    await fetch(`${API_URL}/snippets/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+    })
+
 export const fetchSnippets = async () => await fetch(`${API_URL}/snippets`)
 
 export const fetchSnippetsSingle = async (id: number) =>

@@ -3,6 +3,7 @@ import { type UpdateSnippetRequestBody, type CreateSnippetRequestBody } from './
 import {
     createSnippetsService,
     updateSnippetsService,
+    deleteSnippetsService,
     fetchSnippetsService,
     fetchSnippetsSingleService
 } from './snippets.service.ts'
@@ -39,6 +40,16 @@ export const updateSnippetsHandler = async (
 
     const snippet = await updateSnippetsService(id, snippetId, title, code)
 
+    res.status(200).json(snippet)
+}
+
+export const deleteSnippetsHandler = async (
+    req: Request<{ snippetId: string }, Record<string, never>, Record<string, never>, Record<string, never>>,
+    res: Response
+) => {
+    const snippetId = Number(req.params.snippetId)
+    const { id } = res.locals.user as { id: number }
+    const snippet = await deleteSnippetsService(Number(id), snippetId)
     res.status(200).json(snippet)
 }
 

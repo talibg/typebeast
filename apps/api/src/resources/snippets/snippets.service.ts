@@ -16,6 +16,13 @@ export const updateSnippetsService = async (userId: number, snippetId: number, t
     return snippet
 }
 
+export const deleteSnippetsService = async (userId: number, snippetId: number) => {
+    const snippet = database.snippet.delete({
+        where: { id: snippetId, userId }
+    })
+    return snippet
+}
+
 export const fetchSnippetsService = async () => {
     const snippets = await database.snippet.findMany({
         include: {

@@ -8,7 +8,7 @@ import {
     CardTitle,
     CardDescription,
 } from '@/components/ui/card'
-import { Expand, Shrink } from 'lucide-react'
+import { Edit, Expand, Eye, Shrink, X } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 
 export const SnippetCard = ({
@@ -45,22 +45,26 @@ export const SnippetCard = ({
                             ) : null}
                         </CardDescription>
                     </div>
-                    <Button asChild>
-                        {snippetId ? (
-                            <NavLink to={`/`}>
-                                <Shrink />
-                            </NavLink>
-                        ) : (
-                            <NavLink
-                                to={
-                                    user && user.id === userId
-                                        ? `/${id}/edit`
-                                        : `${id}`
-                                }>
-                                <Expand />
-                            </NavLink>
-                        )}
-                    </Button>
+                    <div className="flex gap-2">
+                        {user && user.id === userId ? (
+                            <Button asChild>
+                                <NavLink to={`/${id}/edit`}>
+                                    <Edit />
+                                </NavLink>
+                            </Button>
+                        ) : null}
+                        <Button asChild>
+                            {snippetId ? (
+                                <NavLink to={`/`}>
+                                    <X />
+                                </NavLink>
+                            ) : (
+                                <NavLink to={`${id}`}>
+                                    <Eye />
+                                </NavLink>
+                            )}
+                        </Button>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="p-0 h-full">

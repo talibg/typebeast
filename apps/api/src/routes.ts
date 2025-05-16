@@ -10,6 +10,7 @@ import { createSessionSchema } from './resources/sessions/sessions.schema.ts'
 import {
     createSnippetsHandler,
     updateSnippetsHandler,
+    deleteSnippetsHandler,
     fetchSnippetsHandler,
     fetchSnippetsSingleHandler
 } from './resources/snippets/snippets.handler.ts'
@@ -31,5 +32,6 @@ router.delete('/sessions', requireAuth, deleteSessionHandler)
 
 router.post('/snippets', requireAuth, validateSchema(createSnippetSchema), createSnippetsHandler)
 router.patch('/snippets/:snippetId', requireAuth, validateSchema(createSnippetSchema), updateSnippetsHandler)
+router.delete('/snippets/:snippetId', requireAuth, deleteSnippetsHandler)
 
 export { router }
