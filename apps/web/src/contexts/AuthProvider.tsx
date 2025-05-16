@@ -72,9 +72,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     )
 
     const login = useCallback(
-        async (email: string, password: string) => {
+        async (username: string, password: string) => {
             setIsLoading(true)
-            const response = await postSessions(email, password)
+            const response = await postSessions(username, password)
             if (!response.ok) throw new Error('Login failed')
             const data = await response.json()
             handleSetStore({ token: data.accessToken, user: data.user })

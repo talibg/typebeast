@@ -11,7 +11,7 @@ import { InputField } from '../components/forms/InputField'
 import { FormCard } from '../components/FormCard'
 
 const formSchema = z.object({
-    email: z.string().email({ message: 'Invalid email address' }),
+    username: z.string(),
     password: z
         .string()
         .min(6, { message: 'Password must be at least 6 characters long' })
@@ -23,14 +23,14 @@ export const Login = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: '',
+            username: '',
             password: '',
         },
     })
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const { email, password } = values
-            await login(email, password)
+            const { username, password } = values
+            await login(username, password)
             toast.success('welcome back')
         } catch {
             toast.error('Failed to submit the form. Please try again.')
@@ -53,11 +53,10 @@ export const Login = () => {
                         <div className="grid gap-4">
                             <InputField
                                 control={form.control}
-                                name="email"
-                                label="Email"
-                                placeholder="example@email.com"
-                                type="email"
-                                autoComplete="email"
+                                name="username"
+                                label="username"
+                                placeholder="typebeast"
+                                type="text"
                             />
                             <InputField
                                 control={form.control}

@@ -21,12 +21,12 @@ export const getSession = async () =>
         headers: { 'Content-Type': 'application/json' },
     })
 
-export const postSessions = async (email: string, password: string) =>
+export const postSessions = async (username: string, password: string) =>
     await fetch(`${API_URL}/sessions`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
     })
 
 export const deleteSessions = async () =>

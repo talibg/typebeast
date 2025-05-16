@@ -23,12 +23,16 @@ model User {
 
 model Session {
     id         Int      @id @default(autoincrement())
+    jti        String   @unique
     token      String   @unique
+    userAgent  String
+    ipAddress  String
     expiryDate DateTime
     userId     Int
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([token])
+    @@index([jti])
     @@index([expiryDate])
 }
 

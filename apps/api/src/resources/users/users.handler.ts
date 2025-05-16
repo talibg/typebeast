@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express'
+import { v4 as uuidv4 } from 'uuid'
 import { type CreateUserRequestBody } from './users.schema.ts'
 import { createUsersService, fetchUsersServiceById } from './users.service.ts'
 import { createTokens } from '../../utils/jwt.ts'
@@ -13,12 +14,22 @@ export const createUserHandler = async (
     >,
     res: Response
 ): Promise<void> => {
-    const { username, email: emailParam, password } = req.body
-    const { id, email, role } = await createUsersService(emailParam, username, password)
-    const { token, refreshToken } = createTokens(id, email, role)
-    await createSessionsService(refreshToken, id)
+    const { username: usernameParam, email: emailParam, password } = req.body
+    const { id, username, role } = await createUsersService(emailParam, usernameParam, password)
+    const jti = uuidv4()
+    const { token, refreshToken } = createTokens({
+        uid: id,
+        jti,
+        username,
+        role
+    })
+
+    const userAgent = req.get('user-agent') || ''
+    const remoteAddress = req?.socket?.remoteAddress
+    const ipAddress = remoteAddress?.replace(/^::ffff:/, '') || ''
+    await createSessionsService(refreshToken, id, jti, userAgent, ipAddress)
     res.cookie('refreshToken', refreshToken, { httpOnly: true })
-    res.status(201).json({ user: { id, email, role }, accessToken: token })
+    res.status(201).json({ user: { id, username, role }, accessToken: token })
 }
 
 export const fetchUserHandler = async (_req: Request, res: Response) => {

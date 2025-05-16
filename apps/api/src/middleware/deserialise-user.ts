@@ -16,7 +16,7 @@ export const deserializeUser = async (req: Request, res: Response, next: NextFun
         return
     }
     const user = await database.user.findUnique({
-        where: { id: decoded.userId },
+        where: { id: decoded.uid },
         omit: { password: true }
     })
     if (!user) {
