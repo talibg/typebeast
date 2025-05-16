@@ -6,6 +6,7 @@ import { FlexContainer } from '../components/FlexContainer'
 export const ViewSnippet = () => {
     const {
         id,
+        userId,
         code,
         title,
         user: { username },
@@ -15,6 +16,7 @@ export const ViewSnippet = () => {
         <FlexContainer>
             <SnippetCard
                 id={id}
+                userId={userId}
                 code={code}
                 title={title}
                 username={username}

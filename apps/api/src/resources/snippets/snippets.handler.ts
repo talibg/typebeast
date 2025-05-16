@@ -1,6 +1,11 @@
 import { type Request, type Response } from 'express'
-import { type CreateSnippetRequestBody } from './snippets.schema.ts'
-import { createSnippetsService, fetchSnippetsService, fetchSnippetsSingleService } from './snippets.service.ts'
+import { type UpdateSnippetRequestBody, type CreateSnippetRequestBody } from './snippets.schema.ts'
+import {
+    createSnippetsService,
+    updateSnippetsService,
+    fetchSnippetsService,
+    fetchSnippetsSingleService
+} from './snippets.service.ts'
 
 export const createSnippetsHandler = async (
     req: Request<
@@ -18,6 +23,24 @@ export const createSnippetsHandler = async (
 
     res.status(200).json(snippet)
 }
+export const updateSnippetsHandler = async (
+    req: Request<
+        { snippetId: string },
+        Record<string, never>,
+        Record<string, never>,
+        UpdateSnippetRequestBody,
+        Record<string, string[] | undefined>
+    >,
+    res: Response
+): Promise<void> => {
+    const snippetId = Number(req.params.snippetId)
+    const { title, code } = req.body
+    const { id } = res.locals.user as { id: number }
+
+    const snippet = await updateSnippetsService(id, snippetId, title, code)
+
+    res.status(200).json(snippet)
+}
 
 export const fetchSnippetsHandler = async (_req: Request, res: Response) => {
     const snippets = await fetchSnippetsService()
@@ -25,9 +48,9 @@ export const fetchSnippetsHandler = async (_req: Request, res: Response) => {
 }
 
 export const fetchSnippetsSingleHandler = async (
-    req: Request<{ id: string }, Record<string, never>, Record<string, never>, Record<string, never>>,
+    req: Request<{ snippetId: string }, Record<string, never>, Record<string, never>, Record<string, never>>,
     res: Response
 ) => {
-    const snippet = await fetchSnippetsSingleService(Number(req.params.id))
+    const snippet = await fetchSnippetsSingleService(Number(req.params.snippetId))
     res.status(200).json(snippet)
 }

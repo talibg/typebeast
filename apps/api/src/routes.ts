@@ -9,6 +9,7 @@ import {
 import { createSessionSchema } from './resources/sessions/sessions.schema.ts'
 import {
     createSnippetsHandler,
+    updateSnippetsHandler,
     fetchSnippetsHandler,
     fetchSnippetsSingleHandler
 } from './resources/snippets/snippets.handler.ts'
@@ -22,12 +23,13 @@ router.post('/users', validateSchema(createUserSchema), createUserHandler)
 router.post('/sessions', validateSchema(createSessionSchema), createSessionHandler)
 
 router.get('/sessions', fetchSessionHandler)
-router.get('/snippets/:id', fetchSnippetsSingleHandler)
+router.get('/snippets/:snippetId', fetchSnippetsSingleHandler)
 router.get('/snippets', fetchSnippetsHandler)
 
 router.get('/users', requireAuth, fetchUserHandler)
 router.delete('/sessions', requireAuth, deleteSessionHandler)
 
 router.post('/snippets', requireAuth, validateSchema(createSnippetSchema), createSnippetsHandler)
+router.patch('/snippets/:snippetId', requireAuth, validateSchema(createSnippetSchema), updateSnippetsHandler)
 
 export { router }

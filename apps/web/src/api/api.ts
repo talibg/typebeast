@@ -43,7 +43,15 @@ export const postSnippets = async (title: string, code: string) =>
         body: JSON.stringify({ title, code }),
     })
 
+export const patchSnippets = async (id: number, title: string, code: string) =>
+    await fetch(`${API_URL}/snippets/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, code }),
+    })
+
 export const fetchSnippets = async () => await fetch(`${API_URL}/snippets`)
 
-export const fetchSnippetsSingle = async (id) =>
+export const fetchSnippetsSingle = async (id: number) =>
     await fetch(`${API_URL}/snippets/${id}`)

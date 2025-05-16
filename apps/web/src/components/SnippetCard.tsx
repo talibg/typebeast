@@ -9,19 +9,23 @@ import {
     CardDescription,
 } from '@/components/ui/card'
 import { Expand, Shrink } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth'
 
 export const SnippetCard = ({
     id,
+    userId,
     code,
     title,
     username,
 }: {
     id: number
+    userId: number
     code: string
     title: string
     username: string
 }) => {
     const { snippetId } = useParams()
+    const { user } = useAuth()
     return (
         <Card
             key={id}
@@ -34,7 +38,12 @@ export const SnippetCard = ({
                 <div className="flex justify-between px-4">
                     <div>
                         <CardTitle className="text-xl">{title}</CardTitle>
-                        <CardDescription>{username}</CardDescription>
+                        <CardDescription>
+                            {username}
+                            {user && user.id === userId ? (
+                                <small className="pl-2">You</small>
+                            ) : null}
+                        </CardDescription>
                     </div>
                     <Button asChild>
                         {snippetId ? (
@@ -42,7 +51,12 @@ export const SnippetCard = ({
                                 <Shrink />
                             </NavLink>
                         ) : (
-                            <NavLink to={`/${id}`}>
+                            <NavLink
+                                to={
+                                    user && user.id === userId
+                                        ? `/${id}/edit`
+                                        : `${id}`
+                                }>
                                 <Expand />
                             </NavLink>
                         )}

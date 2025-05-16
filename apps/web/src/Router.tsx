@@ -11,6 +11,7 @@ import { Loading } from './components/Loading'
 import { fetchUsers, fetchSnippets, fetchSnippetsSingle } from './api/api'
 import { CreateSnippet } from './routes/CreateSnippet'
 import { ViewSnippet } from './routes/ViewSnippet'
+import { EditSnippet } from './routes/EditSnippet'
 
 export const Router = createBrowserRouter([
     {
@@ -61,6 +62,18 @@ export const Router = createBrowserRouter([
                     {
                         path: 'new',
                         Component: CreateSnippet,
+                    },
+                    {
+                        path: ':snippetId/edit',
+                        Component: EditSnippet,
+                        loader: async ({ params }) => {
+                            await authReadyPromise
+                            const response = await fetchSnippetsSingle(
+                                params.snippetId,
+                            )
+                            const data = await response.json()
+                            return data
+                        },
                     },
                 ],
             },

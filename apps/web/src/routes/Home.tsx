@@ -5,6 +5,7 @@ import { PowerOn } from '../components/PowerOn'
 
 export type Snippet = {
     id: number
+    userId: number
     code: string
     title: string
     user: { username: string }
@@ -15,13 +16,14 @@ export const Home = () => {
 
     return data.length ? (
         <GridContainer>
-            {data.map(({ id, code, title, user: { username } }) => (
+            {data.map(({ id, userId, code, title, user: { username } }) => (
                 <SnippetCard
                     key={id}
                     id={id}
                     code={code}
                     title={title}
                     username={username}
+                    userId={userId}
                 />
             ))}
         </GridContainer>
