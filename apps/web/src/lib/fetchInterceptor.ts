@@ -1,4 +1,5 @@
-import { storeManager, authReadyPromise } from './store'
+import { storeManager } from './store'
+import { authReadyPromise } from './authReady'
 
 let originalFetch:
     | ((input: RequestInfo | URL, init?: RequestInit) => Promise<Response>)

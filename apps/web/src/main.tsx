@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router'
 import { Router } from './Router'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from './contexts/ThemeProvider'
 import './index.css'
 import { AuthProvider } from './contexts/AuthProvider'
-import { fetchInterceptor } from './contexts/fetch-interceptor'
+import { fetchInterceptor } from './lib/fetchInterceptor'
 import { Toaster } from 'sonner'
 
 const root = document.getElementById('root')

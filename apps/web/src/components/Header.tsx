@@ -17,7 +17,7 @@ import {
     SheetTitle,
     SheetDescription,
 } from '@/components/ui/sheet'
-import { ModeToggle } from './mode-toggle'
+import { ModeToggle } from './ModeToggle'
 import { useAuth } from '../hooks/useAuth'
 
 export const Header = () => {

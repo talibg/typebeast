@@ -20,7 +20,7 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/password-input'
+import { PasswordInput } from '@/components/ui/password-input'
 import { NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 

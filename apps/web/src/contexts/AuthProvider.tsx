@@ -6,8 +6,8 @@ import {
     PropsWithChildren,
 } from 'react'
 import { AuthContext, UserType } from '../contexts/AuthContext'
-import { storeManager, signalAuthReady, signalAuthFailure } from './store.ts'
-import type { StoreType } from './store.ts'
+import { storeManager, type StoreType } from '../lib/store'
+import { signalAuthReady, signalAuthFailure } from '../lib/authReady'
 import {
     deleteSessions,
     getSession,
